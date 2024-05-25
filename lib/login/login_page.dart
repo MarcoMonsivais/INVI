@@ -1,10 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:invi/helpers/routes_constants.dart';
 import 'package:invi/homepage/home_page.dart';
 
 class LoginPage extends StatefulWidget {
+
+  const LoginPage({super.key});
+  void goScreen(BuildContext context) {
+    context.go('/${RoutesConstants.login}');
+  }
+
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
@@ -21,8 +29,8 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordConfirmationController = TextEditingController();
 
-  bool showPassword = false;
-  bool showConfirmationPassword = false;
+  bool showPassword = true;
+  bool showConfirmationPassword = true;
 
   PageController pgcontroller = PageController(initialPage: 0);
  
@@ -428,8 +436,8 @@ class _LoginPageState extends State<LoginPage> {
                 .collection('users')
                 .doc(user.user!.uid)
                 .set({
-              'mail': '${_emailController.text} ${_lastNameController.text}',
-              'name': _nameController.text,
+              'mail': _emailController.text,
+              'name': '${_nameController.text} ${_lastNameController.text}',
               'phone': _phoneController.text,
               'role': 'user',
               'lastSeen': DateTime.now(),

@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:invi/helpers/routes_constants.dart';
+import 'package:invi/login/login_page.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -17,10 +19,29 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Column(
         children: [
-          Text('Hello')
+          Text('Hello'),
+          ElevatedButton(
+            onPressed: () async {
+              try{
+                await FirebaseAuth.instance.signOut().then((s) => 
+                  Navigator.of(context).popAndPushNamed('/'));
+                } catch(onerr){
+                print(onerr);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Error: ${onerr.toString()}')),
+                );
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            child: const Text('Cerrar Sesión'),
+          )
         ],
       ),
     );
