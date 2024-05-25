@@ -1,21 +1,25 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:invi/homepage/home_page.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-
-
+class LoginPage extends StatefulWidget {
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _LoginPageState extends State<LoginPage> {
 
   TextStyle gfonts = GoogleFonts.roboto();
   
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _passwordConfirmationController = TextEditingController();
 
   PageController pgcontroller = PageController(initialPage: 0);
  
@@ -89,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 16.0),
                               child: ElevatedButton(
-                                onPressed: () => loginWithFirebase(context, _emailController, _passwordController),
+                                onPressed: () => loginWithFirebase(context,),
                                 style: ElevatedButton.styleFrom(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8.0),
@@ -165,6 +169,39 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ),
                               ),
                             ),
+                            /// Nombre
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                              child: TextFormField(
+                                controller: _nameController,
+                                style: gfonts,
+                                decoration: const InputDecoration(
+                                  labelText: 'Nombre',
+                                ),
+                              ),
+                            ),
+                            /// Nombre
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                              child: TextFormField(
+                                controller: _lastNameController,
+                                style: gfonts,
+                                decoration: const InputDecoration(
+                                  labelText: 'Apellido',
+                                ),
+                              ),
+                            ),
+                            /// Nombre
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                              child: TextFormField(
+                                controller: _phoneController,
+                                style: gfonts,
+                                decoration: const InputDecoration(
+                                  labelText: 'Teléfono',
+                                ),
+                              ),
+                            ),
                             // Password text field
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 32.0),
@@ -177,11 +214,23 @@ class _MyHomePageState extends State<MyHomePage> {
                                 ),
                               ),
                             ),
+                            // Password text field
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                              child: TextFormField(
+                                controller: _passwordConfirmationController,
+                                obscureText: true,
+                                style: gfonts,
+                                decoration: const InputDecoration(
+                                  labelText: 'Confirma tu contraseña',
+                                ),
+                              ),
+                            ),
                             // Login button
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 16.0),
                               child: ElevatedButton(
-                                onPressed: () => createUserWithEmailAndPassword(context, _emailController.text, _passwordController.text),
+                                onPressed: () => createUserWithEmailAndPassword(context),
                                 style: ElevatedButton.styleFrom(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8.0),
@@ -266,21 +315,19 @@ class _MyHomePageState extends State<MyHomePage> {
         }
       },
     );
+
+
   }
 
-  Future<void> loginWithFirebase(
-    BuildContext context,
-    TextEditingController emailController,
-    TextEditingController passwordController,
-  ) async {
+  Future<void> loginWithFirebase(BuildContext context,) async {
     try {
+
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
       );
 
-      // Navigate to the home page
-      Navigator.pushNamed(context, '/home');
+      const HomePage().goScreen(context);
 
     } on FirebaseAuthException catch (e) {
       // Handle login errors
@@ -300,18 +347,49 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  Future<void> createUserWithEmailAndPassword(
-    BuildContext context,
-    String email, 
-    String password
-  ) async {
+  Future<void> createUserWithEmailAndPassword(BuildContext context) async {
     try {
       final auth = FirebaseAuth.instance;
-      await auth.createUserWithEmailAndPassword(email: email, password: password);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Contraseña demasiado débil')),
+
+      if(_passwordConfirmationController.text == _passwordController.text){
+        await auth.createUserWithEmailAndPassword(email: _emailController.text, password: _passwordController.text).then((user) async {
+          if(user.user != null) {
+
+            await FirebaseFirestore.instance
+                .collection('app')
+                .doc('conf')
+                .collection('users')
+                .doc(user.user!.uid)
+                .set({
+              'mail': '${_emailController.text} ${_lastNameController.text}',
+              'name': _nameController.text,
+              'phone': _phoneController.text,
+              'role': 'user',
+              'lastSeen': DateTime.now(),
+              'profilepic': 'https://firebasestorage.googleapis.com/v0/b/smile360-3425c.appspot.com/o/test%2FPIC.webp?alt=media&token=8765a72f-b18f-451b-9f59-c11bdd0f91b3',
+            });
+
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Usuario creado exitosamente')),
+            );
+
+            const HomePage().goScreen(context);
+
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Error en usuario')),
+            );
+          }
+        },
       );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Las contraseñas no coinciden')),
+        );
+      }
+
     } on FirebaseAuthException catch (e) {
+      print('Error: ${e.toString()}');
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('error en contraseña: ${e.toString()}')),
         );
