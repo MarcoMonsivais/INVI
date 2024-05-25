@@ -21,6 +21,9 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordConfirmationController = TextEditingController();
 
+  bool showPassword = false;
+  bool showConfirmationPassword = false;
+
   PageController pgcontroller = PageController(initialPage: 0);
  
   @override
@@ -38,18 +41,35 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Expanded(
                       flex: 6,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: const AssetImage('assets/bg-login.png'),
-                            fit: BoxFit.cover,
-                            colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken),
+                      child: Stack(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: const AssetImage('assets/bg-login.png'),
+                                fit: BoxFit.cover,
+                                colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken),
+                              ),
+                              borderRadius: const BorderRadius.only(
+                                topRight: Radius.circular(10),
+                                bottomRight: Radius.circular(10),
+                              ),
+                            ),
                           ),
-                          borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(10),
-                            bottomRight: Radius.circular(10),
+                          Positioned(
+                            bottom: 20,
+                            left: 20,
+                            child: Text(
+                              'Inventario San Jose',
+                              style: GoogleFonts.roboto(
+                                fontSize: 29.0,
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FontStyle.italic,
+                                color: Color.fromARGB(255, 255, 255, 255),
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
                     Expanded(
@@ -82,10 +102,20 @@ class _LoginPageState extends State<LoginPage> {
                               padding: const EdgeInsets.symmetric(horizontal: 32.0),
                               child: TextFormField(
                                 controller: _passwordController,
-                                obscureText: true,
+                                obscureText: showPassword,
                                 style: gfonts,
-                                decoration: const InputDecoration(
+                                decoration: InputDecoration(
                                   labelText: 'Contraseña',
+                                  suffixIcon: IconButton(
+                                  icon: Icon(
+                                    showPassword ? Icons.visibility : Icons.visibility_off,
+                                  ),  
+                                  onPressed: () {
+                                      setState(() {
+                                        showPassword = !showPassword;
+                                      });
+                                    },
+                                  ),
                                 ),
                               ),
                             ),
@@ -207,10 +237,20 @@ class _LoginPageState extends State<LoginPage> {
                               padding: const EdgeInsets.symmetric(horizontal: 32.0),
                               child: TextFormField(
                                 controller: _passwordController,
-                                obscureText: true,
+                                obscureText: showPassword,
                                 style: gfonts,
-                                decoration: const InputDecoration(
+                                decoration: InputDecoration(
                                   labelText: 'Contraseña',
+                                  suffixIcon: IconButton(
+                                  icon: Icon(
+                                    showPassword ? Icons.visibility : Icons.visibility_off,
+                                  ),  
+                                  onPressed: () {
+                                      setState(() {
+                                        showPassword = !showPassword;
+                                      });
+                                    },
+                                  ),
                                 ),
                               ),
                             ),
@@ -219,10 +259,20 @@ class _LoginPageState extends State<LoginPage> {
                               padding: const EdgeInsets.symmetric(horizontal: 32.0),
                               child: TextFormField(
                                 controller: _passwordConfirmationController,
-                                obscureText: true,
+                                obscureText: showConfirmationPassword,
                                 style: gfonts,
-                                decoration: const InputDecoration(
-                                  labelText: 'Confirma tu contraseña',
+                                decoration: InputDecoration(
+                                  labelText: 'Contraseña',
+                                  suffixIcon: IconButton(
+                                  icon: Icon(
+                                    showConfirmationPassword ? Icons.visibility : Icons.visibility_off,
+                                  ),  
+                                  onPressed: () {
+                                      setState(() {
+                                        showConfirmationPassword = !showConfirmationPassword;
+                                      });
+                                    },
+                                  ),
                                 ),
                               ),
                             ),
@@ -266,18 +316,35 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     Expanded(
                       flex: 6,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: const AssetImage('assets/bg-login.png'),
-                            fit: BoxFit.cover,
-                            colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken),
+                      child: Stack(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: const AssetImage('assets/bg-login.png'),
+                                fit: BoxFit.cover,
+                                colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken),
+                              ),
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                bottomLeft: Radius.circular(10),
+                              ),
+                            ),
                           ),
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            bottomLeft: Radius.circular(10),
+                          Positioned(
+                            bottom: 20,
+                            left: 20,
+                            child: Text(
+                              'Inventario San Jose',
+                              style: GoogleFonts.roboto(
+                                fontSize: 29.0,
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FontStyle.italic,
+                                color: Color.fromARGB(255, 255, 255, 255),
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
                   ],

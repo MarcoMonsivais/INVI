@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:invi/helpers/routes_constants.dart';
-// import 'package:website/screens/dashboard/dashboard.dart';
-// import 'package:website/screens/forms/form.dart';
-// import 'package:website/screens/hero/hero_screen.dart';
-// import 'package:website/utils/color_constants.dart';
 
 class HomePage extends StatefulWidget {
 
