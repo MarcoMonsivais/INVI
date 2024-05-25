@@ -1,16 +1,13 @@
-# invi
+# invi Repo
 
-A new Flutter project.
+Repositorio creada para versión Demo Live para mostrar el inventario de la muebleria San Jose
 
-## Getting Started
+## Acerca de
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Aplicación con las siguientes funciones
+- Diseño responsivo para web y dispositivos moviles
+- Inicio de sesión mediante correo electronico y utilizando Firebase Auth
+- Muestra de productos
+- Visualización de elementos de catalogo
+- Botón de acción para tomar o seleccionar un producto de catalogo por usuario
+- Editar información de productos
