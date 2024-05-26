@@ -21,7 +21,7 @@ class DashboardPage extends StatelessWidget {
               return GestureDetector(
                 onTap: () {
                   productId = products[index].id;
-                  print(productId);
+                  productName = product['key'].toString();
                   const ShowProduct_Page().goScreen(context);
                 },
                 child: Card(

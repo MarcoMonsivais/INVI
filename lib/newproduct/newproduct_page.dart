@@ -3,7 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:invi/helpers/globals_variables.dart';
 import 'package:invi/helpers/routes_constants.dart';
+import 'package:invi/product/showproduct_page.dart';
 
 class NewProductPage extends StatefulWidget {
   const NewProductPage({Key? key}) : super(key: key);
@@ -113,7 +115,24 @@ class _NewProductPageState extends State<NewProductPage> {
       
                 FirebaseFirestore.instance
                     .collection('app/conf/products')
-                    .add(_product);
+                    .add(_product).then((doc){
+                      
+                      _keyController.clear();
+                      _descriptionController.clear();
+                      _imageController.clear();
+                      _priceController.clear();
+                      _qntyController.clear();
+                      _totalController.clear();
+
+                      productId = doc.id;
+                      productName = _keyController.text;
+
+                      const ShowProduct_Page().goScreen(context);
+
+                    })
+                    .catchError((e) => print(e));
+
+                    
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.brown.shade200,

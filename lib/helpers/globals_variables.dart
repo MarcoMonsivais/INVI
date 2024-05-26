@@ -1,1 +1,2 @@
 String productId = '';
+String productName = '';
