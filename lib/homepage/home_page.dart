@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:invi/dashboard/dashboard_page.dart';
 import 'package:invi/helpers/routes_constants.dart';
 import 'package:invi/helpers/side_menu.dart';
+import 'package:invi/newproduct/newproduct_page.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -36,6 +37,18 @@ class _HomePageState extends State<HomePage> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.brown.shade200,
         actions: [
+
+          TextField(
+            controller: TextEditingController(),
+            decoration: InputDecoration(
+              prefixIcon: Icon(Icons.search),
+              hintText: 'Search',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+          ),
+
           IconButton(
             onPressed: () {
               
@@ -60,27 +73,8 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.brown.shade200,
         child: const Icon(Icons.add, color: Colors.white,),
-        onPressed: () async {
-          await FirebaseFirestore.instance.collection('app/conf/products').add({
-            'author': {
-              'dateCreated': DateTime.now(),
-              'name': 'Marco Monsivais',
-              'id': FirebaseAuth.instance.currentUser!.uid,
-            },
-            'description': 'Servilleteros',
-            'key': 'SAJO0001',
-            'image': 'https://firebasestorage.googleapis.com/v0/b/inventario-sanjose.appspot.com/o/app%2Fconf%2Fimages%2F8651552.png?alt=media&token=fb19b42b-b1b2-45e5-a73f-8e021c5e6dcb',
-            'lastEdit': DateTime.now(),
-            'price': 5410,
-            'qnty': 20,
-            'total': 852
-          }).then((doc){
-            print(doc.id);
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Documento Creado: ${doc.id}')),
-            );
-          });
-        },
+        onPressed: () async =>
+          const NewProductPage().goScreen(context),
       ),
       body: const SafeArea(
         child: Row(
