@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:invi/dashboard/dashboard_page.dart';
 import 'package:invi/helpers/routes_constants.dart';
-import 'package:invi/login/login_page.dart';
+import 'package:invi/helpers/side_menu.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -20,29 +23,78 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Text('Hello'),
-          ElevatedButton(
-            onPressed: () async {
-              try{
-                await FirebaseAuth.instance.signOut().then((s) => 
-                  Navigator.of(context).popAndPushNamed('/'));
-                } catch(onerr){
-                print(onerr);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Error: ${onerr.toString()}')),
-                );
-              }
-            },
-            style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
+      appBar: AppBar(
+        elevation: 0.0,
+        title: Text(
+          'Bienvenido', 
+          style: GoogleFonts.roboto(
+            color: Colors.white, 
+            fontWeight: FontWeight.bold
             ),
-            child: const Text('Cerrar Sesión'),
-          )
+          ),
+        centerTitle: false,
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.brown.shade200,
+        actions: [
+          IconButton(
+            onPressed: () {
+              
+            },
+            icon: const Icon(
+              Icons.person,
+              color: Colors.white,
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              FirebaseAuth.instance.signOut();
+              widget.goScreen(context);
+            },
+            icon: const Icon(
+              Icons.logout,
+              color: Colors.white,
+            ),
+          ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.brown.shade200,
+        child: const Icon(Icons.add, color: Colors.white,),
+        onPressed: () async {
+          await FirebaseFirestore.instance.collection('app/conf/products').add({
+            'author': {
+              'dateCreated': DateTime.now(),
+              'name': 'Marco Monsivais',
+              'id': FirebaseAuth.instance.currentUser!.uid,
+            },
+            'description': 'Servilleteros',
+            'key': 'SAJO0001',
+            'image': 'https://firebasestorage.googleapis.com/v0/b/inventario-sanjose.appspot.com/o/app%2Fconf%2Fimages%2F8651552.png?alt=media&token=fb19b42b-b1b2-45e5-a73f-8e021c5e6dcb',
+            'lastEdit': DateTime.now(),
+            'price': 5410,
+            'qnty': 20,
+            'total': 852
+          }).then((doc){
+            print(doc.id);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Documento Creado: ${doc.id}')),
+            );
+          });
+        },
+      ),
+      body: const SafeArea(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: SideMenu(),
+            ),
+            Expanded(
+              flex: 8,
+              child: DashboardPage(),
+            ),
+          ],
+        ),
       ),
     );
   }
