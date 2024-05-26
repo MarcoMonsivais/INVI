@@ -4,5 +4,6 @@ class RoutesConstants {
   static const String terminos = 'terminos';
   static const String homepage = 'homepage';
   static const String newproduct = 'newproduct';
+  static const String showproduct = 'showproduct';
   static const String index = 'login';
 }
