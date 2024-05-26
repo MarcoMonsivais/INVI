@@ -1,19 +1,44 @@
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:2334237200.
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:4028512950.
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({Key? key}) : super(key: key);
 
-  @override
+   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('Hello World'),
-        ],
-      ),
+    return FutureBuilder<QuerySnapshot>(
+      future: FirebaseFirestore.instance.collection('app/conf/products').get(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final products = snapshot.data!.docs;
+          return ListView.builder(
+            itemCount: products.length,
+            itemBuilder: (context, index) {
+              final product = products[index].data() as Map<String, dynamic>;
+              return Card(
+                margin: const EdgeInsets.all(8.0),
+                child: ListTile(
+                  trailing: Image.network(product['image']),
+                  title: Text(
+                    product['description'],
+                    style: GoogleFonts.roboto(),
+                  ),
+                  subtitle: Text(
+                    'Price: \$${product['price']}',
+                    style: GoogleFonts.roboto(),
+                  ),
+                  
+                ),
+              );
+            },
+          );
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
     );
   }
 }
