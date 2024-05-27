@@ -114,33 +114,36 @@ class _NewProductPageState extends State<NewProductPage> {
                 };
       
                 FirebaseFirestore.instance
-                    .collection('app/conf/products')
-                    .add(_product).then((doc){
-                      
-                      _keyController.clear();
-                      _descriptionController.clear();
-                      _imageController.clear();
-                      _priceController.clear();
-                      _qntyController.clear();
-                      _totalController.clear();
-
-                      productId = doc.id;
-                      productName = _keyController.text;
-
-                      const ShowProduct_Page().goScreen(context);
-
-                    })
-                    .catchError((e) => print(e));
-
+                  .collection('app/conf/products')
+                  .add(_product).then((doc){
                     
+                    _keyController.clear();
+                    _descriptionController.clear();
+                    _imageController.clear();
+                    _priceController.clear();
+                    _qntyController.clear();
+                    _totalController.clear();
+
+                    productId = doc.id;
+                    productName = _keyController.text;
+
+                    const ShowProduct_Page().goScreen(context);
+
+                  })
+                  .catchError((e) => print(e));
+                  
               },
+              
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.brown.shade200,
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(15),
               ),
-              child: Text(
-                'Add Product',
-                style: GoogleFonts.roboto(color: Colors.white),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15, top: 8, bottom: 8),
+                child: Text(
+                  'Agregar Producto Nuevo',
+                  style: GoogleFonts.roboto(color: Colors.white),
+                ),
               ),
             ),
           ],

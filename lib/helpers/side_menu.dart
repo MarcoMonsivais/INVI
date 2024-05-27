@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:invi/login/login_page.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({
@@ -22,9 +24,41 @@ class SideMenu extends StatelessWidget {
             press: () {},
           ),
           DrawerListTile(
+            title: "Perfil",
+            icon: Icons.person,
+            press: () {},
+          ),
+          DrawerListTile(
             title: "Configuración",
             icon: Icons.settings,
             press: () {},
+          ),
+          DrawerListTile(
+            title: "Salir de sesión",
+            icon: Icons.logout,
+            press: () {
+              FirebaseAuth.instance.signOut();
+              const LoginPage().goScreen(context);
+            },
+          ),
+          DrawerListTile(
+            title: "Acerca de",
+            icon: Icons.settings,
+            press: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text('Acerca de'),
+                  content: Text('Versión 1.00.01\nÚltima actualización: ${DateTime.now()}'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Cerrar'),
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
         ],
       ),

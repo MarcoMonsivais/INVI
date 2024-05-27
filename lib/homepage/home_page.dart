@@ -37,39 +37,19 @@ class _HomePageState extends State<HomePage> {
         centerTitle: false,
         automaticallyImplyLeading: false,
         backgroundColor: Colors.brown.shade200,
-        actions: [
-
-          TextField(
-            controller: _searchTextEditingController,
-            decoration: InputDecoration(
-              prefixIcon: Icon(Icons.search),
-              hintText: 'Search',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
+        leading: TextField(
+          controller: _searchTextEditingController,
+          decoration: InputDecoration(
+            fillColor: Colors.white,
+            filled: true,
+            prefixIcon: const Icon(Icons.search),
+            hintText: 'Buscar producto',
+            hintStyle: GoogleFonts.roboto(),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
             ),
           ),
-
-          IconButton(
-            onPressed: () {
-              
-            },
-            icon: const Icon(
-              Icons.person,
-              color: Colors.white,
-            ),
-          ),
-          IconButton(
-            onPressed: () {
-              FirebaseAuth.instance.signOut();
-              widget.goScreen(context);
-            },
-            icon: const Icon(
-              Icons.logout,
-              color: Colors.white,
-            ),
-          ),
-        ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.brown.shade200,
