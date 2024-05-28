@@ -19,6 +19,7 @@ dependencies:
   flutter_localization: ^0.2.0
   flutter_svg: ^2.0.10+1
   image_picker: ^1.1.1
+  csv: ^6.0.0
 
 dev_dependencies:
   flutter_test:

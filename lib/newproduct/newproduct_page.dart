@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:invi/helpers/globals_variables.dart';
 import 'package:invi/helpers/routes_constants.dart';
+import 'package:invi/homepage/home_page.dart';
 import 'package:invi/product/showproduct_page.dart';
 
 class NewProductPage extends StatefulWidget {
@@ -40,6 +41,13 @@ class _NewProductPageState extends State<NewProductPage> {
             ),
           ),
         centerTitle: true,
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white,),
+          onPressed: () {
+            const HomePage().goScreen(context);
+          },
+        ),
         backgroundColor: Colors.brown.shade200,
       ),
       body: Padding(
