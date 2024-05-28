@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,8 +20,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  TextEditingController _searchTextEditingController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,19 +35,6 @@ class _HomePageState extends State<HomePage> {
         centerTitle: false,
         automaticallyImplyLeading: false,
         backgroundColor: Colors.brown.shade200,
-        leading: TextField(
-          controller: _searchTextEditingController,
-          decoration: InputDecoration(
-            fillColor: Colors.white,
-            filled: true,
-            prefixIcon: const Icon(Icons.search),
-            hintText: 'Buscar producto',
-            hintStyle: GoogleFonts.roboto(),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.brown.shade200,
