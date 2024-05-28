@@ -8,6 +8,7 @@ import 'package:invi/helpers/routes_constants.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:invi/newproduct/newproduct_page.dart';
 import 'package:invi/product/showproduct_page.dart';
+import 'package:invi/settings/settings_page.dart';
 
 void main() async {
 
@@ -60,6 +61,10 @@ class MyApp extends StatelessWidget {
             GoRoute(
               path: RoutesConstants.newproduct,
               builder: (context, state) => NewProductPage(),
+            ),
+            GoRoute(
+              path: RoutesConstants.settings,
+              builder: (context, state) => SettingsPage(),
             ),
             GoRoute(
               path: RoutesConstants.showproduct,

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:invi/login/login_page.dart';
+import 'package:invi/settings/settings_page.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({
@@ -23,15 +24,15 @@ class SideMenu extends StatelessWidget {
             icon: Icons.dashboard,
             press: () {},
           ),
-          DrawerListTile(
-            title: "Perfil",
-            icon: Icons.person,
-            press: () {},
-          ),
+          // DrawerListTile(
+          //   title: "Perfil",
+          //   icon: Icons.person,
+          //   press: () {},
+          // ),
           DrawerListTile(
             title: "Configuración",
             icon: Icons.settings,
-            press: () {},
+            press: () => const SettingsPage().goScreen(context),
           ),
           DrawerListTile(
             title: "Salir de sesión",

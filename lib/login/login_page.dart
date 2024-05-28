@@ -151,17 +151,17 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                             // Forgot password link
-                            TextButton(
-                              onPressed: () {
-                                // Handle forgot password logic here
-                              },
-                              child: Text(
-                                'Recuperar contraseña',
-                                style: GoogleFonts.roboto(
-                                  fontSize: 11.0,
-                                )
-                              ),
-                            ),
+                            // TextButton(
+                            //   onPressed: () {
+                            //     // Handle forgot password logic here
+                            //   },
+                            //   child: Text(
+                            //     'Recuperar contraseña',
+                            //     style: GoogleFonts.roboto(
+                            //       fontSize: 11.0,
+                            //     )
+                            //   ),
+                            // ),
                             TextButton(
                               onPressed: () => pgcontroller.nextPage(
                                 duration: const Duration(milliseconds: 300),

@@ -33,7 +33,7 @@ class _NewProductPageState extends State<NewProductPage> {
       appBar: AppBar(
         elevation: 0.0,
         title: Text(
-          'Bienvenido', 
+          'Agregar Producto', 
           style: GoogleFonts.roboto(
             color: Colors.white, 
             fontWeight: FontWeight.bold
