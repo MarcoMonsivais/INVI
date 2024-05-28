@@ -70,7 +70,14 @@ class _DashboardPageState extends State<DashboardPage> {
                       child: Card(
                         margin: const EdgeInsets.all(8.0),
                         child: ListTile(
-                          trailing: Image.network(product['image']),
+                          // trailing: Image.network(product['image']),
+                          trailing: Text(
+                            product['key'],
+                            style: GoogleFonts.roboto(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
                           title: Text(
                             product['description'],
                             style: GoogleFonts.roboto(),
