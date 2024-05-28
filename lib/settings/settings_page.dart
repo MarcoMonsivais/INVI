@@ -46,17 +46,56 @@ class _SettingsPageState extends State<SettingsPage> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            const Text('Exportar CSV de base de datos'),
+            Text('Exportar CSV de base de datos', style: GoogleFonts.roboto(
+              color: Colors.black, 
+              fontWeight: FontWeight.bold,
+              fontSize: 25
+            ),),
+            Text('Descarga la base de datos actual en un archivo CSV', style: GoogleFonts.roboto(
+              color: Colors.black, 
+              fontWeight: FontWeight.normal,
+              fontSize: 15
+            ),),
             ElevatedButton(
               onPressed: generateAndDownloadCSV,
-              child: const Text('Generar y Descargar CSV'),
-            ),            
+              child: Text('Generar y Descargar CSV', style: GoogleFonts.roboto(
+                color: Colors.black, 
+                fontWeight: FontWeight.normal,
+                fontSize: 15
+              ),),
+            ),
+            const Divider(height: 20.0, color: Colors.grey),
+            Text('Cargar archivo CSV', style: GoogleFonts.roboto(
+              color: Colors.black, 
+              fontWeight: FontWeight.bold,
+              fontSize: 25
+            ),),
+            Text('Carga un archivo CSV a la base de datos de sistema', style: GoogleFonts.roboto(
+              color: Colors.black, 
+              fontWeight: FontWeight.normal,
+              fontSize: 15
+            ),),
+            ElevatedButton(
+              onPressed: () async {
+                final jsonResult = await readCSVAndConvertToJson();
+                print(jsonResult);
+              },
+              child: Text('Cargar CSV', style: GoogleFonts.roboto(
+                color: Colors.black, 
+                fontWeight: FontWeight.normal,
+                fontSize: 15
+              ),),
+            ),
+
           ],
         ),
       ),
     );
   }
+  
   void generateAndDownloadCSV() {
     List<List<dynamic>> rows = [
       ["Name", "Age", "Email"],
@@ -84,5 +123,47 @@ class _SettingsPageState extends State<SettingsPage> {
       const SnackBar(content: Text('Archivo descargado correctamente')),
     );
   }
-  
+
+  Future<String> readCSVAndConvertToJson() async {
+    // Crea un input de archivo para seleccionar el archivo CSV
+    final input = html.FileUploadInputElement()..accept = '.csv';
+    input.click();
+
+    // Espera a que el usuario seleccione el archivo
+    await input.onChange.first;
+    final file = input.files?.first;
+    if (file == null) {
+      return 'No se seleccionó ningún archivo';
+    }
+
+    // Lee el archivo CSV
+    final reader = html.FileReader();
+    reader.readAsText(file);
+    await reader.onLoad.first;
+
+    final csvString = reader.result as String;
+
+    // Convierte el contenido del CSV a una lista de listas
+    List<List<dynamic>> rowsAsListOfValues = const CsvToListConverter().convert(csvString);
+
+    // Convierte la lista de listas a JSON
+    if (rowsAsListOfValues.isEmpty) {
+      return 'El archivo CSV está vacío';
+    }
+
+    List<String> headers = List<String>.from(rowsAsListOfValues[0]);
+    List<Map<String, dynamic>> jsonList = [];
+
+    for (int i = 1; i < rowsAsListOfValues.length; i++) {
+      Map<String, dynamic> rowMap = {};
+      for (int j = 0; j < headers.length; j++) {
+        rowMap[headers[j]] = rowsAsListOfValues[i][j];
+      }
+      jsonList.add(rowMap);
+    }
+
+    // Convierte la lista de mapas a una cadena JSON
+    return jsonEncode(jsonList);
+  }
+
 }
