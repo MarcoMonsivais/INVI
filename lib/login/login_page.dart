@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:invi/helpers/globals_variables.dart';
 import 'package:invi/helpers/routes_constants.dart';
 import 'package:invi/homepage/home_page.dart';
 
@@ -39,6 +40,7 @@ class _LoginPageState extends State<LoginPage> {
     return LayoutBuilder(
       builder: (context, constraints) {
         if (constraints.maxWidth > 800) {
+          isDesktop = true;
           // Desktop layout
           return Scaffold(
             body: PageView(
@@ -361,32 +363,251 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
           );
+        
         } else {
-          // Mobile layout
+
           return Scaffold(
-            body: Column(
+            body: PageView(
+              controller: pgcontroller,
               children: [
-                Image.asset(
-                  'assets/bg-login.png',
-                  fit: BoxFit.cover,
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(32.0),
+
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Sign In',
+                        'Iniciar sesión',
+                        style: GoogleFonts.roboto(
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 105, 45, 5)                      ),
                       ),
-                      SizedBox(height: 16.0),
-                      // Add your login form here
+                        Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                        child: TextFormField(
+                          controller: _emailController,
+                          style: gfonts,
+                          decoration: const InputDecoration(
+                            labelText: 'Correo Electronico',
+                          ),
+                        ),
+                      ),
+                      // Password text field
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                        child: TextFormField(
+                          controller: _passwordController,
+                          obscureText: showPassword,
+                          style: gfonts,
+                          decoration: InputDecoration(
+                            labelText: 'Contraseña',
+                            suffixIcon: IconButton(
+                            icon: Icon(
+                              showPassword ? Icons.visibility : Icons.visibility_off,
+                            ),  
+                            onPressed: () {
+                                setState(() {
+                                  showPassword = !showPassword;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                      // Login button
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: ElevatedButton(
+                          onPressed: () => loginWithFirebase(context,),
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            backgroundColor: Color.fromARGB(146, 117, 54, 12),
+                          ),
+                          child: Text(
+                            'Iniciar Sesión',
+                            style: GoogleFonts.roboto(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(255, 255, 255, 255),
+                            )
+                          ),
+                        ),
+                      ),
+                      // Forgot password link
+                      TextButton(
+                        onPressed: () {
+                          // Handle forgot password logic here
+                        },
+                        child: Text(
+                          'Recuperar contraseña',
+                          style: GoogleFonts.roboto(
+                            fontSize: 11.0,
+                          )
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () => pgcontroller.nextPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                        ),
+                        child: Text(
+                          'Crear cuenta',
+                          style: GoogleFonts.roboto(
+                            fontSize: 11.0,
+                          )
+                        ),
+                      ),
+                      
                     ],
                   ),
                 ),
+                
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Crear cuenta',
+                        style: GoogleFonts.roboto(
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 105, 45, 5)                      ),
+                      ),
+                        Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                        child: TextFormField(
+                          controller: _emailController,
+                          style: gfonts,
+                          decoration: const InputDecoration(
+                            labelText: 'Correo Electronico',
+                          ),
+                        ),
+                      ),
+                      /// Nombre
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                        child: TextFormField(
+                          controller: _nameController,
+                          style: gfonts,
+                          decoration: const InputDecoration(
+                            labelText: 'Nombre',
+                          ),
+                        ),
+                      ),
+                      /// Nombre
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                        child: TextFormField(
+                          controller: _lastNameController,
+                          style: gfonts,
+                          decoration: const InputDecoration(
+                            labelText: 'Apellido',
+                          ),
+                        ),
+                      ),
+                      /// Nombre
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                        child: TextFormField(
+                          controller: _phoneController,
+                          style: gfonts,
+                          decoration: const InputDecoration(
+                            labelText: 'Teléfono',
+                          ),
+                        ),
+                      ),
+                      // Password text field
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                        child: TextFormField(
+                          controller: _passwordController,
+                          obscureText: showPassword,
+                          style: gfonts,
+                          decoration: InputDecoration(
+                            labelText: 'Contraseña',
+                            suffixIcon: IconButton(
+                            icon: Icon(
+                              showPassword ? Icons.visibility : Icons.visibility_off,
+                            ),  
+                            onPressed: () {
+                                setState(() {
+                                  showPassword = !showPassword;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                      // Password text field
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                        child: TextFormField(
+                          controller: _passwordConfirmationController,
+                          obscureText: showConfirmationPassword,
+                          style: gfonts,
+                          decoration: InputDecoration(
+                            labelText: 'Contraseña',
+                            suffixIcon: IconButton(
+                            icon: Icon(
+                              showConfirmationPassword ? Icons.visibility : Icons.visibility_off,
+                            ),  
+                            onPressed: () {
+                                setState(() {
+                                  showConfirmationPassword = !showConfirmationPassword;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                      // Login button
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: ElevatedButton(
+                          onPressed: () => createUserWithEmailAndPassword(context),
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            backgroundColor: Color.fromARGB(146, 117, 54, 12),
+                          ),
+                          child: Text(
+                            'Crear cuenta',
+                            style: GoogleFonts.roboto(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(255, 255, 255, 255),
+                            )
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () => pgcontroller.previousPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                        ),
+                        child: Text(
+                          'Iniciar sesión',
+                          style: GoogleFonts.roboto(
+                            fontSize: 11.0,
+                          )
+                        ),
+                      ),
+                      
+                    ],
+                  ),
+                )
+              
               ],
             ),
           );
+        
         }
       },
     );

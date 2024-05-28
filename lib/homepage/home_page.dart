@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:invi/dashboard/dashboard_page.dart';
+import 'package:invi/helpers/globals_variables.dart';
 import 'package:invi/helpers/routes_constants.dart';
 import 'package:invi/helpers/side_menu.dart';
 import 'package:invi/newproduct/newproduct_page.dart';
@@ -57,14 +58,15 @@ class _HomePageState extends State<HomePage> {
         onPressed: () async =>
           const NewProductPage().goScreen(context),
       ),
-      body: const SafeArea(
+      body: SafeArea(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
+            if(isDesktop)
+            const Expanded(
               child: SideMenu(),
             ),
-            Expanded(
+            const Expanded(
               flex: 8,
               child: DashboardPage(),
             ),

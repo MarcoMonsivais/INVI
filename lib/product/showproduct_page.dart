@@ -151,9 +151,9 @@ class _ShowProduct_PageState extends State<ShowProduct_Page> {
               ),
             );
           } else if (snapshot.hasError) {
-            return Text('Error');
+            return const Text('Error en cargar catalogo');
           } else {
-            return Text('Error');
+            return const Text('Cargando información');
           }
         },
       ),
