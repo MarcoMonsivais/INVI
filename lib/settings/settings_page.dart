@@ -1,14 +1,12 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:invi/admin/editproducts/edit_page.dart';
 import 'package:invi/helpers/routes_constants.dart';
 import 'package:invi/homepage/home_page.dart';
-
 import 'package:csv/csv.dart';
 import 'dart:html' as html;
-
 import 'package:invi/admin/newproduct/newproduct_page.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -122,7 +120,7 @@ class _SettingsPageState extends State<SettingsPage> {
               fontSize: 15
             ),),
             ElevatedButton(
-              onPressed: () => const NewProductPage().goScreen(context),
+              onPressed: () => const EditPage().goScreen(context),
               child: Text('Buscar y editar', style: GoogleFonts.roboto(
                 color: Colors.black, 
                 fontWeight: FontWeight.normal,

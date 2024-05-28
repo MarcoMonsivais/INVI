@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:invi/helpers/globals_variables.dart';
 import 'package:invi/admin/product/showproduct_page.dart';
+import 'package:invi/helpers/routes_constants.dart';
 import 'package:invi/settings/settings_page.dart';
 
 class EditPage extends StatefulWidget {
   const EditPage({Key? key}) : super(key: key);
+  void goScreen(BuildContext context) {
+    context.go('/${RoutesConstants.edit}');
+  }
 
   @override
   State<EditPage> createState() => _EditPageState();
