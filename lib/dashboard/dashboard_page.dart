@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:invi/helpers/globals_variables.dart';
-import 'package:invi/product/showproduct_page.dart';
+import 'package:invi/admin/product/showproduct_page.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key? key}) : super(key: key);
@@ -70,7 +70,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       child: Card(
                         margin: const EdgeInsets.all(8.0),
                         child: ListTile(
-                          // trailing: Image.network(product['image']),
+                          leading: Icon(Icons.check_box),
                           trailing: Text(
                             product['key'],
                             style: GoogleFonts.roboto(

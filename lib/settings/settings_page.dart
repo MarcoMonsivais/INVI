@@ -9,6 +9,8 @@ import 'package:invi/homepage/home_page.dart';
 import 'package:csv/csv.dart';
 import 'dart:html' as html;
 
+import 'package:invi/admin/newproduct/newproduct_page.dart';
+
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
   void goScreen(BuildContext context) {
@@ -89,7 +91,44 @@ class _SettingsPageState extends State<SettingsPage> {
                 fontSize: 15
               ),),
             ),
-
+            const Divider(height: 20.0, color: Colors.grey),
+            Text('Agregar un producto', style: GoogleFonts.roboto(
+              color: Colors.black, 
+              fontWeight: FontWeight.bold,
+              fontSize: 25
+            ),),
+            Text('Carga manualmente un producto', style: GoogleFonts.roboto(
+              color: Colors.black, 
+              fontWeight: FontWeight.normal,
+              fontSize: 15
+            ),),
+            ElevatedButton(
+              onPressed: () => const NewProductPage().goScreen(context),
+              child: Text('Cargar CSV', style: GoogleFonts.roboto(
+                color: Colors.black, 
+                fontWeight: FontWeight.normal,
+                fontSize: 15
+              ),),
+            ),
+            const Divider(height: 20.0, color: Colors.grey),
+            Text('Editar productos', style: GoogleFonts.roboto(
+              color: Colors.black, 
+              fontWeight: FontWeight.bold,
+              fontSize: 25
+            ),),
+            Text('Muestra una lista completa de productos para editar uno por uno', style: GoogleFonts.roboto(
+              color: Colors.black, 
+              fontWeight: FontWeight.normal,
+              fontSize: 15
+            ),),
+            ElevatedButton(
+              onPressed: () => const NewProductPage().goScreen(context),
+              child: Text('Buscar y editar', style: GoogleFonts.roboto(
+                color: Colors.black, 
+                fontWeight: FontWeight.normal,
+                fontSize: 15
+              ),),
+            ),
           ],
         ),
       ),

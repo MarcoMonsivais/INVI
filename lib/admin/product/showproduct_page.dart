@@ -6,6 +6,7 @@ import 'package:invi/helpers/globals_variables.dart';
 import 'package:invi/helpers/routes_constants.dart';
 import 'package:invi/homepage/home_page.dart';
 import 'package:invi/login/login_page.dart';
+import 'package:invi/settings/settings_page.dart';
 
 class ShowProduct_Page extends StatefulWidget {
 
@@ -38,7 +39,7 @@ class _ShowProduct_PageState extends State<ShowProduct_Page> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white,),
           onPressed: () {
-            const HomePage().goScreen(context);
+            const SettingsPage().goScreen(context);
           },
         ),
         backgroundColor: Colors.brown.shade200,

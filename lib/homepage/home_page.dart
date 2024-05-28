@@ -5,7 +5,7 @@ import 'package:invi/dashboard/dashboard_page.dart';
 import 'package:invi/helpers/globals_variables.dart';
 import 'package:invi/helpers/routes_constants.dart';
 import 'package:invi/helpers/side_menu.dart';
-import 'package:invi/newproduct/newproduct_page.dart';
+import 'package:invi/admin/newproduct/newproduct_page.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -38,9 +38,8 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.brown.shade200,
-        child: const Icon(Icons.add, color: Colors.white,),
-        onPressed: () async =>
-          const NewProductPage().goScreen(context),
+        child: const Icon(Icons.check, color: Colors.white,),
+        onPressed: () {},
       ),
       body: SafeArea(
         child: Row(

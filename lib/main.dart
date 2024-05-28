@@ -6,8 +6,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:go_router/go_router.dart';
 import 'package:invi/helpers/routes_constants.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:invi/newproduct/newproduct_page.dart';
-import 'package:invi/product/showproduct_page.dart';
+import 'package:invi/admin/newproduct/newproduct_page.dart';
+import 'package:invi/admin/product/showproduct_page.dart';
 import 'package:invi/settings/settings_page.dart';
 
 void main() async {

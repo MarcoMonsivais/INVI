@@ -6,7 +6,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:invi/helpers/globals_variables.dart';
 import 'package:invi/helpers/routes_constants.dart';
 import 'package:invi/homepage/home_page.dart';
-import 'package:invi/product/showproduct_page.dart';
+import 'package:invi/admin/product/showproduct_page.dart';
+import 'package:invi/settings/settings_page.dart';
 
 class NewProductPage extends StatefulWidget {
   const NewProductPage({Key? key}) : super(key: key);
@@ -45,7 +46,7 @@ class _NewProductPageState extends State<NewProductPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white,),
           onPressed: () {
-            const HomePage().goScreen(context);
+            const SettingsPage().goScreen(context);
           },
         ),
         backgroundColor: Colors.brown.shade200,
