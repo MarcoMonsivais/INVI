@@ -15,7 +15,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
   TextEditingController _searchController = TextEditingController();
   Future<QuerySnapshot<Map<String, dynamic>>> products = FirebaseFirestore.instance.collection('app/conf/products').get();
-
+  IconData icon = Icons.check_box;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -63,14 +63,18 @@ class _DashboardPageState extends State<DashboardPage> {
                     final product = products[index].data() as Map<String, dynamic>;
                     return GestureDetector(
                       onTap: () {
-                        productId = products[index].id;
-                        productName = product['key'].toString();
-                        const ShowProduct_Page().goScreen(context);
+                        setState(() {
+                          if (icon == Icons.check_box) {
+                            icon = Icons.check_box_outline_blank;
+                          } else {
+                            icon = Icons.check_box;
+                          }
+                        });
                       },
                       child: Card(
                         margin: const EdgeInsets.all(8.0),
                         child: ListTile(
-                          leading: Icon(Icons.check_box),
+                          leading: Icon(icon),
                           trailing: Text(
                             product['key'],
                             style: GoogleFonts.roboto(
