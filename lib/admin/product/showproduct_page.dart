@@ -49,11 +49,11 @@ class _ShowProduct_PageState extends State<ShowProduct_Page> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
 
-            TextEditingController _descriptionController = TextEditingController(text: snapshot.data!['description']);
-            TextEditingController _keyController = TextEditingController(text: snapshot.data!['key']);
-            TextEditingController _priceController = TextEditingController(text: snapshot.data!['price'].toString());
-            TextEditingController _qntyController = TextEditingController(text: snapshot.data!['qnty'].toString());
-            TextEditingController _totalController = TextEditingController(text: snapshot.data!['total'].toString());
+            TextEditingController descriptionController = TextEditingController(text: snapshot.data!['description']);
+            TextEditingController keyController = TextEditingController(text: snapshot.data!['key']);
+            TextEditingController priceController = TextEditingController(text: snapshot.data!['price'].toString());
+            TextEditingController qntyController = TextEditingController(text: snapshot.data!['qnty'].toString());
+            TextEditingController totalController = TextEditingController(text: snapshot.data!['total'].toString());
 
 
             return Padding(
@@ -63,7 +63,7 @@ class _ShowProduct_PageState extends State<ShowProduct_Page> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
-                      controller: _descriptionController,
+                      controller: descriptionController,
                       style: GoogleFonts.roboto(),
                       decoration: const InputDecoration(
                         labelText: 'Descripcion',
@@ -73,7 +73,7 @@ class _ShowProduct_PageState extends State<ShowProduct_Page> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
-                      controller: _keyController,
+                      controller: keyController,
                       style: GoogleFonts.roboto(),
                       decoration: const InputDecoration(
                         labelText: 'Clave',
@@ -83,7 +83,7 @@ class _ShowProduct_PageState extends State<ShowProduct_Page> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
-                      controller: _priceController,
+                      controller: priceController,
                       style: GoogleFonts.roboto(),
                       decoration: const InputDecoration(
                         labelText: 'Precio',
@@ -93,7 +93,7 @@ class _ShowProduct_PageState extends State<ShowProduct_Page> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
-                      controller: _qntyController,
+                      controller: qntyController,
                       style: GoogleFonts.roboto(),
                       decoration: const InputDecoration(
                         labelText: 'Cantidad',
@@ -103,7 +103,7 @@ class _ShowProduct_PageState extends State<ShowProduct_Page> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
-                      controller: _totalController,
+                      controller: totalController,
                       style: GoogleFonts.roboto(),
                       decoration: const InputDecoration(
                         labelText: 'Total',
@@ -113,17 +113,17 @@ class _ShowProduct_PageState extends State<ShowProduct_Page> {
 
                   ElevatedButton(
                     onPressed: () async {
-                      if (_descriptionController.text != snapshot.data!['description'] ||
-                          _keyController.text != snapshot.data!['key'] ||
-                          _priceController.text != snapshot.data!['price'].toString() ||
-                          _qntyController.text != snapshot.data!['qnty'].toString() ||
-                          _totalController.text != snapshot.data!['total'].toString()) {
+                      if (descriptionController.text != snapshot.data!['description'] ||
+                          keyController.text != snapshot.data!['key'] ||
+                          priceController.text != snapshot.data!['price'].toString() ||
+                          qntyController.text != snapshot.data!['qnty'].toString() ||
+                          totalController.text != snapshot.data!['total'].toString()) {
                         await FirebaseFirestore.instance.doc('app/conf/products/$productId').update({
-                          'description': _descriptionController.text,
-                          'key': _keyController.text,
-                          'price': double.parse(_priceController.text),
-                          'qnty': int.parse(_qntyController.text),
-                          'total': double.parse(_totalController.text),
+                          'description': descriptionController.text,
+                          'key': keyController.text,
+                          'price': double.parse(priceController.text),
+                          'qnty': int.parse(qntyController.text),
+                          'total': double.parse(totalController.text),
                         }).then((doc){
                           const HomePage().goScreen(context);
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -136,14 +136,14 @@ class _ShowProduct_PageState extends State<ShowProduct_Page> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
                       ),
-                      backgroundColor: Color.fromARGB(146, 117, 54, 12),
+                      backgroundColor: const Color.fromARGB(146, 117, 54, 12),
                     ),
                     child: Text(
                       'Editar Producto',
                        style: GoogleFonts.roboto(
                         fontSize: 16.0,
                         fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 255, 255, 255),
+                        color: const Color.fromARGB(255, 255, 255, 255),
                       )
                     ),
                   ),

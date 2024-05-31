@@ -5,7 +5,7 @@ import 'package:invi/helpers/globals_variables.dart';
 import 'package:invi/admin/product/showproduct_page.dart';
 
 class DashboardPage extends StatefulWidget {
-  const DashboardPage({Key? key}) : super(key: key);
+  const DashboardPage({super.key});
 
   @override
   State<DashboardPage> createState() => _DashboardPageState();
@@ -13,7 +13,7 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
 
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   Future<QuerySnapshot<Map<String, dynamic>>> products = FirebaseFirestore.instance.collection('app/conf/products').get();
   IconData icon = Icons.check_box;
   @override
@@ -44,7 +44,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 setState(() {
                   products = FirebaseFirestore.instance.collection('app/conf/products')                
                   .where('key', isGreaterThanOrEqualTo: upperValue)
-                  .where('key', isLessThan: upperValue + 'z')
+                  .where('key', isLessThan: '${upperValue}z')
                   .get();
                 });
               }

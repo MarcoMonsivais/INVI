@@ -5,7 +5,6 @@ import 'package:invi/dashboard/dashboard_page.dart';
 import 'package:invi/helpers/globals_variables.dart';
 import 'package:invi/helpers/routes_constants.dart';
 import 'package:invi/helpers/side_menu.dart';
-import 'package:invi/admin/newproduct/newproduct_page.dart';
 
 class HomePage extends StatefulWidget {
 

@@ -6,8 +6,8 @@ import 'package:invi/settings/settings_page.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -69,12 +69,12 @@ class SideMenu extends StatelessWidget {
 
 class DrawerListTile extends StatelessWidget {
   const DrawerListTile({
-    Key? key,
+    super.key,
     // For selecting those three line once press "Command+D"
     required this.title,
     required this.icon,
     required this.press,
-  }) : super(key: key);
+  });
 
   final String title;
   final IconData icon;

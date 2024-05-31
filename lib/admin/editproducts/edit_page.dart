@@ -8,7 +8,7 @@ import 'package:invi/helpers/routes_constants.dart';
 import 'package:invi/settings/settings_page.dart';
 
 class EditPage extends StatefulWidget {
-  const EditPage({Key? key}) : super(key: key);
+  const EditPage({super.key});
   void goScreen(BuildContext context) {
     context.go('/${RoutesConstants.edit}');
   }
@@ -19,7 +19,7 @@ class EditPage extends StatefulWidget {
 
 class _EditPageState extends State<EditPage> {
 
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   Future<QuerySnapshot<Map<String, dynamic>>> products = FirebaseFirestore.instance.collection('app/conf/products').get();
 
   @override
@@ -75,7 +75,7 @@ class _EditPageState extends State<EditPage> {
                   setState(() {
                     products = FirebaseFirestore.instance.collection('app/conf/products')                
                     .where('key', isGreaterThanOrEqualTo: upperValue)
-                    .where('key', isLessThan: upperValue + 'z')
+                    .where('key', isLessThan: '${upperValue}z')
                     .get();
                   });
                 }

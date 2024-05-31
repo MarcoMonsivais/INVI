@@ -10,7 +10,7 @@ import 'package:invi/admin/product/showproduct_page.dart';
 import 'package:invi/settings/settings_page.dart';
 
 class NewProductPage extends StatefulWidget {
-  const NewProductPage({Key? key}) : super(key: key);
+  const NewProductPage({super.key});
 
   void goScreen(BuildContext context) {
     context.go('/${RoutesConstants.newproduct}');
@@ -105,14 +105,14 @@ class _NewProductPageState extends State<NewProductPage> {
       
             ElevatedButton(
               onPressed: () {
-                final _author = {
+                final author = {
                   'dateCreated': DateTime.now(),
                   'name': 'Marco Monsivais',
                   'id': FirebaseAuth.instance.currentUser!.uid,
                 };
       
-                final _product = {
-                  'author': _author,
+                final product = {
+                  'author': author,
                   'description': _descriptionController.text,
                   'key': _keyController.text,
                   'image': _imageController.text,
@@ -124,7 +124,7 @@ class _NewProductPageState extends State<NewProductPage> {
       
                 FirebaseFirestore.instance
                   .collection('app/conf/products')
-                  .add(_product).then((doc){
+                  .add(product).then((doc){
                     
                     _keyController.clear();
                     _descriptionController.clear();

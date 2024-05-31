@@ -53,27 +53,27 @@ class MyApp extends StatelessWidget {
       routerConfig: GoRouter(routes: <RouteBase>[
         GoRoute(
           path: RoutesConstants.login,
-          builder: (context, state) => LoginPage(),
+          builder: (context, state) => const LoginPage(),
           routes: <RouteBase>[
             GoRoute(
               path: RoutesConstants.homepage,
-              builder: (context, state) => HomePage(),
+              builder: (context, state) => const HomePage(),
             ),
             GoRoute(
               path: RoutesConstants.newproduct,
-              builder: (context, state) => NewProductPage(),
+              builder: (context, state) => const NewProductPage(),
             ),
             GoRoute(
               path: RoutesConstants.settings,
-              builder: (context, state) => SettingsPage(),
+              builder: (context, state) => const SettingsPage(),
             ),
             GoRoute(
               path: RoutesConstants.showproduct,
-              builder: (context, state) => ShowProduct_Page(),
+              builder: (context, state) => const ShowProduct_Page(),
             ),
             GoRoute(
               path: RoutesConstants.edit,
-              builder: (context, state) => EditPage(),
+              builder: (context, state) => const EditPage(),
             ),
           ]),
       ]),

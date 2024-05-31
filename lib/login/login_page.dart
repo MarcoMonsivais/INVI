@@ -75,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                                 fontSize: 29.0,
                                 fontWeight: FontWeight.bold,
                                 fontStyle: FontStyle.italic,
-                                color: Color.fromARGB(255, 255, 255, 255),
+                                color: const Color.fromARGB(255, 255, 255, 255),
                               ),
                             ),
                           ),
@@ -95,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                               style: GoogleFonts.roboto(
                                 fontSize: 24.0,
                                 fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 105, 45, 5)                      ),
+                                color: const Color.fromARGB(255, 105, 45, 5)                      ),
                             ),
                              Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 32.0),
@@ -138,14 +138,14 @@ class _LoginPageState extends State<LoginPage> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),
-                                  backgroundColor: Color.fromARGB(146, 117, 54, 12),
+                                  backgroundColor: const Color.fromARGB(146, 117, 54, 12),
                                 ),
                                 child: Text(
                                   'Iniciar Sesión',
                                   style: GoogleFonts.roboto(
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    color: const Color.fromARGB(255, 255, 255, 255),
                                   )
                                 ),
                               ),
@@ -197,7 +197,7 @@ class _LoginPageState extends State<LoginPage> {
                               style: GoogleFonts.roboto(
                                 fontSize: 24.0,
                                 fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 105, 45, 5)                      ),
+                                color: const Color.fromARGB(255, 105, 45, 5)                      ),
                             ),
                              Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 32.0),
@@ -295,14 +295,14 @@ class _LoginPageState extends State<LoginPage> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),
-                                  backgroundColor: Color.fromARGB(146, 117, 54, 12),
+                                  backgroundColor: const Color.fromARGB(146, 117, 54, 12),
                                 ),
                                 child: Text(
                                   'Crear cuenta',
                                   style: GoogleFonts.roboto(
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    color: const Color.fromARGB(255, 255, 255, 255),
                                   )
                                 ),
                               ),
@@ -350,7 +350,7 @@ class _LoginPageState extends State<LoginPage> {
                                 fontSize: 29.0,
                                 fontWeight: FontWeight.bold,
                                 fontStyle: FontStyle.italic,
-                                color: Color.fromARGB(255, 255, 255, 255),
+                                color: const Color.fromARGB(255, 255, 255, 255),
                               ),
                             ),
                           ),
@@ -382,7 +382,7 @@ class _LoginPageState extends State<LoginPage> {
                         style: GoogleFonts.roboto(
                           fontSize: 24.0,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 105, 45, 5)                      ),
+                          color: const Color.fromARGB(255, 105, 45, 5)                      ),
                       ),
                         Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 32.0),
@@ -425,14 +425,14 @@ class _LoginPageState extends State<LoginPage> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ),
-                            backgroundColor: Color.fromARGB(146, 117, 54, 12),
+                            backgroundColor: const Color.fromARGB(146, 117, 54, 12),
                           ),
                           child: Text(
                             'Iniciar Sesión',
                             style: GoogleFonts.roboto(
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 255, 255, 255),
+                              color: const Color.fromARGB(255, 255, 255, 255),
                             )
                           ),
                         ),
@@ -477,7 +477,7 @@ class _LoginPageState extends State<LoginPage> {
                         style: GoogleFonts.roboto(
                           fontSize: 24.0,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 105, 45, 5)                      ),
+                          color: const Color.fromARGB(255, 105, 45, 5)                      ),
                       ),
                         Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 32.0),
@@ -575,14 +575,14 @@ class _LoginPageState extends State<LoginPage> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ),
-                            backgroundColor: Color.fromARGB(146, 117, 54, 12),
+                            backgroundColor: const Color.fromARGB(146, 117, 54, 12),
                           ),
                           child: Text(
                             'Crear cuenta',
                             style: GoogleFonts.roboto(
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 255, 255, 255),
+                              color: const Color.fromARGB(255, 255, 255, 255),
                             )
                           ),
                         ),

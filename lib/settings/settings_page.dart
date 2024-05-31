@@ -10,7 +10,7 @@ import 'dart:html' as html;
 import 'package:invi/admin/newproduct/newproduct_page.dart';
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+  const SettingsPage({super.key});
   void goScreen(BuildContext context) {
     context.go('/${RoutesConstants.settings}');
   }
