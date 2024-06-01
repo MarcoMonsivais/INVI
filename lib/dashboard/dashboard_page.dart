@@ -14,7 +14,7 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
 
   final TextEditingController _searchController = TextEditingController();
-  Future<QuerySnapshot<Map<String, dynamic>>> products = FirebaseFirestore.instance.collection('app/conf/products').get();
+  Future<QuerySnapshot<Map<String, dynamic>>> products = FirebaseFirestore.instance.collection('app/conf/products').orderBy('key', descending: false).get();
   List<IconData> selectedProductIcon = List.generate(10000, (index) => Icons.check_box_outline_blank);
 
   @override
@@ -63,6 +63,11 @@ class _DashboardPageState extends State<DashboardPage> {
                   itemBuilder: (context, index) {
                     final product = products[index].data() as Map<String, dynamic>;
                     return GestureDetector(
+                      onDoubleTap: (){
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(products[index].id)),
+                          );
+                      },
                       onTap: () {
                         setState(() {
                           if (selectedProductIcon[index] == Icons.check_box) {
