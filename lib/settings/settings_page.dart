@@ -214,11 +214,12 @@ class _SettingsPageState extends State<SettingsPage> {
 
             String key = '', description = '';
 
-            print(row.elementAt(0)!.value!.toString());
-            print(row.elementAt(1)!.value!.toString());
-            print(row.elementAt(2)!.value!.toString());
-            print(row.elementAt(3)!.value!.toString());
-            print(row.elementAt(4)!.value!.toString());
+            // print(row.elementAt(0)!.value!.toString());
+            // print(row.elementAt(1)!.value!.toString());
+            // print(row.elementAt(2)!.value!.toString());
+            // print(row.elementAt(3)!.value!.toString());
+            // print(row.elementAt(4)!.value!.toString());
+            // pr
 
             try{
               key = row.elementAt(0)!.value!.toString();
@@ -252,31 +253,27 @@ class _SettingsPageState extends State<SettingsPage> {
               print('ERROR ON total: ${onerr.toString()}');
             }
 
-            try {
-              await FirebaseFirestore.instance.collection('/app/conf/producs').add({
-                'author': {
-                  'dateCreated': DateTime.now(),
-                  'name': 'Marco Monsivais',
-                  'id': id,
-                },
-                'description': description,
-                'key': key,
-                'image': '',
-                'lastEdit': DateTime.now(),
-                'price': price,
-                'qnty': exist,
-                'total': total,
-              });
+            await FirebaseFirestore.instance.collection('/app/conf/products').add({
+              'author': {
+                'dateCreated': DateTime.now(),
+                'name': 'Marco Monsivais',
+                'id': id,
+              },
+              'description': description,
+              'key': key,
+              'image': '',
+              'lastEdit': DateTime.now(),
+              'price': price,
+              'qnty': exist,
+              'total': total,
+            });
               
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('El archivo fue cargado correctamente. Consulta el inicio dentro de unos minutos')));
-
-            } catch(onerr){
-              print('ERROR ON INSERT');
-            }
           }
         }
         
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('El archivo fue cargado correctamente. Consulta el inicio dentro de unos minutos')));
+
       } catch(e){
 
         print(e);
