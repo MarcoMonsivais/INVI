@@ -72,6 +72,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 fontSize: 15
               ),),
             ),
+
             const Divider(height: 20.0, color: Colors.grey),
             Text('Cargar archivo CSV', style: GoogleFonts.roboto(
               color: Colors.black, 
@@ -92,6 +93,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 fontSize: 15
               ),),
             ),
+
             const Divider(height: 20.0, color: Colors.grey),
             Text('Agregar un producto', style: GoogleFonts.roboto(
               color: Colors.black, 
@@ -105,12 +107,13 @@ class _SettingsPageState extends State<SettingsPage> {
             ),),
             ElevatedButton(
               onPressed: () => const NewProductPage().goScreen(context),
-              child: Text('Cargar CSV', style: GoogleFonts.roboto(
+              child: Text('Agregar producto manualmente', style: GoogleFonts.roboto(
                 color: Colors.black, 
                 fontWeight: FontWeight.normal,
                 fontSize: 15
               ),),
             ),
+
             const Divider(height: 20.0, color: Colors.grey),
             Text('Editar productos', style: GoogleFonts.roboto(
               color: Colors.black, 
@@ -166,79 +169,129 @@ class _SettingsPageState extends State<SettingsPage> {
 
   readCSVAndConvertToJson() async {
     
+
     FilePickerResult? pickedFile = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['xlsx', 'csv'],
+      allowedExtensions: ['xlsx'],
       allowMultiple: false,
     );
-
+    
     if (pickedFile != null) {
-      List<int> bytes = pickedFile.files.single.bytes as List<int>;
-      var excel = Excel.decodeBytes(bytes);
-      for (var table in excel.tables.keys) {
 
-        for (var row in excel.tables[table]!.rows) {
+      int progress = 0;
 
-          String key = '', description = '';
+      ProgressDialog pd = ProgressDialog(context: context);
 
-          try{
-            key = row.elementAt(0)!.value!;
-          }catch(onerr){
-            print('ERROR ON key: ${onerr.toString()}');
-          }
+      pd.show(
+        hideValue: true,
+        max: 20,
+        msg: 'Generando archivo...',
+        progressBgColor: Colors.transparent,
+      );
 
-          try{
-            description = row.elementAt(1)!.value!;
-          } catch(onerr){
-            print('ERROR ON description: ${onerr.toString()}');
-          }
-          
-          String price = '', exist = '', total = '';
+      try{
 
-          try{
-            price = row.elementAt(2)!.value!;
-          } catch(onerr){
-            print('ERROR ON price: ${onerr.toString()}');
-          }
+        progress = progress + 10;
+        pd.update(value: progress, msg: 'Leyendo archivo...');
+        await Future.delayed(const Duration(milliseconds: 500));
 
-          try{
-            exist = row.elementAt(3)!.value!;
-          } catch(onerr){
-            print('ERROR ON exist: ${onerr.toString()}');
-          }
+        List<int> bytes = pickedFile.files.single.bytes as List<int>;
+        var excel = Excel.decodeBytes(bytes);
 
-          try{
-            total = row.elementAt(4)!.value!;
-          } catch(onerr){
-            print('ERROR ON total: ${onerr.toString()}');
-          }
-
-          try {
-            await FirebaseFirestore.instance.collection('/app/conf/prod').add({
-              'author': {
-                'dateCreated': DateTime.now(),
-                'name': 'Marco Monsivais',
-                'id': FirebaseAuth.instance.currentUser!.uid,
-              },
-              'description': description,
-              'key': key,
-              'image': '',
-              'lastEdit': DateTime.now(),
-              'price': int.parse(price.replaceAll(RegExp(r'\$'), '')),
-              'qnty': int.parse(exist.replaceAll(RegExp(r'\$'), '')),
-              'total': int.parse(total.replaceAll(RegExp(r'\$'), '')),
-            });
-          } catch(onerr){
-            print('ERROR ON INSERT');
-          }
-
+        String id = '';
+        try{
+          id = FirebaseAuth.instance.currentUser!.uid;
+        } catch (onerr){
+          id = '';
         }
 
+        progress = progress + 10;
+        pd.update(value: progress, msg: '${bytes.length} productos identificados...');
+        await Future.delayed(const Duration(milliseconds: 500));
+
+        for (var table in excel.tables.keys) {
+          for (var row in excel.tables[table]!.rows.take(10)) {
+
+            String key = '', description = '';
+
+            print(row.elementAt(0)!.value!.toString());
+            print(row.elementAt(1)!.value!.toString());
+            print(row.elementAt(2)!.value!.toString());
+            print(row.elementAt(3)!.value!.toString());
+            print(row.elementAt(4)!.value!.toString());
+
+            try{
+              key = row.elementAt(0)!.value!.toString();
+            }catch(onerr){
+              print('ERROR ON key: ${onerr.toString()}');
+            }
+
+            try{
+              description = row.elementAt(1)!.value!.toString();
+            } catch(onerr){
+              print('ERROR ON description: ${onerr.toString()}');
+            }
+            
+            String price = '', exist = '', total = '';
+
+            try{
+              price = row.elementAt(2)!.value!.toString();
+            } catch(onerr){
+              print('ERROR ON price: ${onerr.toString()}');
+            }
+
+            try{
+              exist = row.elementAt(3)!.value!.toString();
+            } catch(onerr){
+              print('ERROR ON exist: ${onerr.toString()}');
+            }
+
+            try{
+              total = row.elementAt(4)!.value!.toString();
+            } catch(onerr){
+              print('ERROR ON total: ${onerr.toString()}');
+            }
+
+            try {
+              await FirebaseFirestore.instance.collection('/app/conf/producs').add({
+                'author': {
+                  'dateCreated': DateTime.now(),
+                  'name': 'Marco Monsivais',
+                  'id': id,
+                },
+                'description': description,
+                'key': key,
+                'image': '',
+                'lastEdit': DateTime.now(),
+                'price': price,
+                'qnty': exist,
+                'total': total,
+              });
+              
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('El archivo fue cargado correctamente. Consulta el inicio dentro de unos minutos')));
+
+            } catch(onerr){
+              print('ERROR ON INSERT');
+            }
+          }
+        }
+        
+      } catch(e){
+
+        print(e);
+
+        progress = progress + 10;
+        pd.update(value: progress, msg: 'Casi listo...');
+        await Future.delayed(const Duration(milliseconds: 500));
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error al leer el archivo CSV: ${e.toString()}')));
+    
       }
 
-      print('CATALOGO TERMINADO');
-
     }
+    
   }
 
   readCSVAndConvertToJson2() async {
@@ -261,11 +314,6 @@ class _SettingsPageState extends State<SettingsPage> {
       
       await input.onChange.first;
       final file = input.files?.first;
-      if (file == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('No se seleccionó ningún archivo')),
-        );
-      }
 
       progress = progress + 10;
       pd.update(value: progress, msg: 'Leyendo archivo...');
@@ -275,30 +323,36 @@ class _SettingsPageState extends State<SettingsPage> {
       reader.readAsText(file!);
       await reader.onLoad.first;
 
+      print(0);
       final csvString = reader.result as String;
-
+      print(1);
+      print('csvString: $csvString');
+      List<List<dynamic>> rowsAsListOfValues = [[]];
+      try{
+       rowsAsListOfValues = const CsvToListConverter().convert(csvString);
+      } catch(onerr){
+        print('ERRNO: ${onerr.toString()}');
+      }
+      print(2);
+      print('ROW: ${rowsAsListOfValues.first.first.toString()}');
       progress = progress + 10;
       pd.update(value: progress, msg: 'Generando datos...');
       await Future.delayed(const Duration(milliseconds: 500));
 
-      List<List<dynamic>> rowsAsListOfValues = const CsvToListConverter().convert(csvString);
-
-      if (rowsAsListOfValues.isEmpty) {
-        print('El archivo CSV está vacío');
-      }
-
       await FirebaseFirestore.instance.collection('prod').add({
         'rowsAsListOfValues': rowsAsListOfValues
       });
+      print(3);
       List<String> headers = List<String>.from(rowsAsListOfValues[0]);
       List<Map<String, dynamic>> jsonList = [];
-      
+      print(4);
       progress = progress + 10;
       pd.update(value: progress, msg: 'Identificando datos...');
       await Future.delayed(const Duration(milliseconds: 500));
 
       Map<String, dynamic> rowMap = {};
       for (int i = 1; i < rowsAsListOfValues.length; i++) {
+        print(5);
         for (int j = 0; j < headers.length; j++) {
           rowMap[headers[j]] = rowsAsListOfValues[i][j];
         }
@@ -308,7 +362,7 @@ class _SettingsPageState extends State<SettingsPage> {
       progress = progress + 10;
       pd.update(value: progress, msg: '${rowMap.length} productos identificados...');
       await Future.delayed(const Duration(milliseconds: 500));
-
+      print(6);
       await FirebaseFirestore.instance.collection('prod').add({
         'test': rowMap
       });
