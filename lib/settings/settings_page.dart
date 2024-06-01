@@ -210,7 +210,7 @@ class _SettingsPageState extends State<SettingsPage> {
         await Future.delayed(const Duration(milliseconds: 500));
 
         for (var table in excel.tables.keys) {
-          for (var row in excel.tables[table]!.rows.take(10)) {
+          for (var row in excel.tables[table]!.rows) {
 
             String key = '', description = '';
 

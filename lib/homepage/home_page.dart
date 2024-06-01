@@ -39,7 +39,13 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.brown.shade200,
         child: const Icon(Icons.check, color: Colors.white,),
-        onPressed: () {},
+        onPressed: () {
+          
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(selectedProductKeys.toList().toString())),
+          );
+          
+        },
       ),
       body: SafeArea(
         child: LayoutBuilder(
