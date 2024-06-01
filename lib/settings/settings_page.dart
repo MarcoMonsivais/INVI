@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,6 +9,7 @@ import 'package:invi/homepage/home_page.dart';
 import 'package:csv/csv.dart';
 import 'dart:html' as html;
 import 'package:invi/admin/newproduct/newproduct_page.dart';
+import 'package:sn_progress_dialog/progress_dialog.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -79,10 +81,8 @@ class _SettingsPageState extends State<SettingsPage> {
               fontSize: 15
             ),),
             ElevatedButton(
-              onPressed: () async {
-                final jsonResult = await readCSVAndConvertToJson();
-                print(jsonResult);
-              },
+              onPressed: () async =>
+                await readCSVAndConvertToJson(),
               child: Text('Cargar CSV', style: GoogleFonts.roboto(
                 color: Colors.black, 
                 fontWeight: FontWeight.normal,
@@ -161,46 +161,93 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Future<String> readCSVAndConvertToJson() async {
-    // Crea un input de archivo para seleccionar el archivo CSV
-    final input = html.FileUploadInputElement()..accept = '.csv';
-    input.click();
+// Suggested code may be subject to a license. Learn more: ~LicenseLog:958646065.
+  readCSVAndConvertToJson() async {
 
-    // Espera a que el usuario seleccione el archivo
-    await input.onChange.first;
-    final file = input.files?.first;
-    if (file == null) {
-      return 'No se seleccionó ningún archivo';
-    }
+    int progress = 0;
 
-    // Lee el archivo CSV
-    final reader = html.FileReader();
-    reader.readAsText(file);
-    await reader.onLoad.first;
+    ProgressDialog pd = ProgressDialog(context: context);
 
-    final csvString = reader.result as String;
+    pd.show(
+      hideValue: true,
+      max: 50,
+      msg: 'Generando archivo...',
+      progressBgColor: Colors.transparent,
+    );
 
-    // Convierte el contenido del CSV a una lista de listas
-    List<List<dynamic>> rowsAsListOfValues = const CsvToListConverter().convert(csvString);
-
-    // Convierte la lista de listas a JSON
-    if (rowsAsListOfValues.isEmpty) {
-      return 'El archivo CSV está vacío';
-    }
-
-    List<String> headers = List<String>.from(rowsAsListOfValues[0]);
-    List<Map<String, dynamic>> jsonList = [];
-
-    for (int i = 1; i < rowsAsListOfValues.length; i++) {
-      Map<String, dynamic> rowMap = {};
-      for (int j = 0; j < headers.length; j++) {
-        rowMap[headers[j]] = rowsAsListOfValues[i][j];
+    try{
+    
+      final input = html.FileUploadInputElement()..accept = '.csv';
+      input.click();
+      
+      await input.onChange.first;
+      final file = input.files?.first;
+      if (file == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('No se seleccionó ningún archivo')),
+        );
       }
-      jsonList.add(rowMap);
-    }
 
-    // Convierte la lista de mapas a una cadena JSON
-    return jsonEncode(jsonList);
+      progress = progress + 10;
+      pd.update(value: progress, msg: 'Leyendo archivo...');
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      final reader = html.FileReader();
+      reader.readAsText(file!);
+      await reader.onLoad.first;
+
+      final csvString = reader.result as String;
+
+      progress = progress + 10;
+      pd.update(value: progress, msg: 'Generando datos...');
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      List<List<dynamic>> rowsAsListOfValues = const CsvToListConverter().convert(csvString);
+
+      if (rowsAsListOfValues.isEmpty) {
+        print('El archivo CSV está vacío');
+      }
+
+      await FirebaseFirestore.instance.collection('prod').add({
+        'rowsAsListOfValues': rowsAsListOfValues
+      });
+      List<String> headers = List<String>.from(rowsAsListOfValues[0]);
+      List<Map<String, dynamic>> jsonList = [];
+      
+      progress = progress + 10;
+      pd.update(value: progress, msg: 'Identificando datos...');
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      Map<String, dynamic> rowMap = {};
+      for (int i = 1; i < rowsAsListOfValues.length; i++) {
+        for (int j = 0; j < headers.length; j++) {
+          rowMap[headers[j]] = rowsAsListOfValues[i][j];
+        }
+        jsonList.add(rowMap);
+      }
+      
+      progress = progress + 10;
+      pd.update(value: progress, msg: '${rowMap.length} productos identificados...');
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      await FirebaseFirestore.instance.collection('prod').add({
+        'test': rowMap
+      });
+
+      progress = progress + 10;
+      pd.update(value: progress, msg: 'Casi listo...');
+      await Future.delayed(const Duration(milliseconds: 500));
+    } catch (e) {
+      print(e);
+
+      progress = progress + 10;
+      pd.update(value: progress, msg: 'Casi listo...');
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error al leer el archivo CSV: ${e.toString()}')));
+  
+    }
   }
 
 }

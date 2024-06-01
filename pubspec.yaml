@@ -20,6 +20,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   image_picker: ^1.1.1
   csv: ^6.0.0
+  sn_progress_dialog: 1.1.4
 
 dev_dependencies:
   flutter_test:

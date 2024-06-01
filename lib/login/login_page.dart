@@ -40,7 +40,6 @@ class _LoginPageState extends State<LoginPage> {
     return LayoutBuilder(
       builder: (context, constraints) {
         if (constraints.maxWidth > 800) {
-          isDesktop = true;
           // Desktop layout
           return Scaffold(
             body: PageView(

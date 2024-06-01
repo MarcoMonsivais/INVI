@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:invi/dashboard/dashboard_page.dart';
+import 'package:invi/helpers/bottom_menu.dart';
 import 'package:invi/helpers/globals_variables.dart';
 import 'package:invi/helpers/routes_constants.dart';
 import 'package:invi/helpers/side_menu.dart';
@@ -41,18 +42,33 @@ class _HomePageState extends State<HomePage> {
         onPressed: () {},
       ),
       body: SafeArea(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if(isDesktop)
-            const Expanded(
-              child: SideMenu(),
-            ),
-            const Expanded(
-              flex: 8,
-              child: DashboardPage(),
-            ),
-          ],
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            // Desktop
+            if (constraints.maxWidth > 800) {
+              return Row(
+                children: [
+                  const SideMenu(),
+                  Expanded(
+                    child: Container(
+                      color: Colors.white,
+                      child: const DashboardPage(),
+                    ),
+                  ),
+                ],
+              );
+            } else {
+              return Stack(
+                children: [
+                  const DashboardPage(),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: BottomMenu(),
+                  )
+                ],
+              );
+            }
+          },
         ),
       ),
     );

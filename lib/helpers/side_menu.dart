@@ -50,7 +50,7 @@ class SideMenu extends StatelessWidget {
                 context: context,
                 builder: (context) => AlertDialog(
                   title: const Text('Acerca de'),
-                  content: Text('Versión 1.00.01\nÚltima actualización: ${DateTime.now()}'),
+                  content: Text('Versión 1.00.01\nÚltima actualización: 01/05/2024'),
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.pop(context),
