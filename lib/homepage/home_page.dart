@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,6 +8,7 @@ import 'package:invi/helpers/bottom_menu.dart';
 import 'package:invi/helpers/globals_variables.dart';
 import 'package:invi/helpers/routes_constants.dart';
 import 'package:invi/helpers/side_menu.dart';
+import 'package:invi/history_page.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -37,15 +40,34 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.brown.shade200,
       ),
       floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          
+          try{
+            if (selectedProductKeys.isEmpty) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Seleccione al menos un producto')),
+              );
+            } else {
+
+              await FirebaseFirestore.instance.collection('/app/conf/users/${FirebaseAuth.instance.currentUser!.uid}/daytoday').doc('${DateTime.now().toString().substring(0,10)}').set({
+                'products': selectedProductKeys
+              });
+          
+              selectedProductIcon = List.generate(100, (index) => Icons.check_box_outline_blank);
+              selectedProductKeys = [];  
+              
+              const HistoryPage().goScreen(context);
+
+            }
+          } catch (onerr){
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('ERROR: ${onerr.toString()}')),
+            );
+          }
+
+        },
         backgroundColor: Colors.brown.shade200,
         child: const Icon(Icons.check, color: Colors.white,),
-        onPressed: () {
-          
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(selectedProductKeys.toList().toString())),
-          );
-          
-        },
       ),
       body: SafeArea(
         child: LayoutBuilder(

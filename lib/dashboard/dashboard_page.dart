@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:invi/helpers/globals_variables.dart';
 import 'package:invi/admin/product/showproduct_page.dart';
@@ -15,8 +17,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
   final TextEditingController _searchController = TextEditingController();
   Future<QuerySnapshot<Map<String, dynamic>>> products = FirebaseFirestore.instance.collection('app/conf/products').orderBy('key', descending: false).get();
-  List<IconData> selectedProductIcon = List.generate(10000, (index) => Icons.check_box_outline_blank);
-
+  
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -52,7 +53,9 @@ class _DashboardPageState extends State<DashboardPage> {
             },
           ),
         ),
+        
         Expanded(
+          flex: 7,
           child: FutureBuilder<QuerySnapshot>(
             future: products,
             builder: (context, snapshot) {
@@ -123,6 +126,7 @@ class _DashboardPageState extends State<DashboardPage> {
             },
           ),
         ),
+    
       ],
     );
   }

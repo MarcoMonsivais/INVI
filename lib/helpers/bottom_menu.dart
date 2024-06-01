@@ -10,8 +10,8 @@ class BottomMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       backgroundColor: Colors.brown,
-      selectedItemColor: Colors.white,
-      unselectedItemColor: Colors.grey,
+      selectedItemColor: Colors.brown,
+      unselectedItemColor: Colors.white,
       items: [
         BottomNavigationBarItem(
           backgroundColor: Colors.brown.shade200,
@@ -21,6 +21,11 @@ class BottomMenu extends StatelessWidget {
         BottomNavigationBarItem(
           backgroundColor: Colors.brown.shade200,
           icon: const Icon(Icons.settings),
+          label: '',
+        ),
+        BottomNavigationBarItem(
+          backgroundColor: Colors.brown.shade200,
+          icon: const Icon(Icons.history),
           label: '',
         ),
         BottomNavigationBarItem(
@@ -44,11 +49,15 @@ class BottomMenu extends StatelessWidget {
             const SettingsPage().goScreen(context);
             break;
           case 2:
+            // Navigate to Settings
+            // const SettingsPage().goScreen(context);
+            break;
+          case 3:
             // Sign out and navigate to Login
             FirebaseAuth.instance.signOut();
             const LoginPage().goScreen(context);
             break;
-          case 3:
+          case 4:
             // Show About dialog
             showDialog(
               context: context,

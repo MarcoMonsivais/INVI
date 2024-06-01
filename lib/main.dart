@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:invi/admin/editproducts/edit_page.dart';
+import 'package:invi/history_page.dart';
 import 'package:invi/homepage/home_page.dart';
 import 'package:invi/login/login_page.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -66,6 +67,10 @@ class MyApp extends StatelessWidget {
             GoRoute(
               path: RoutesConstants.settings,
               builder: (context, state) => const SettingsPage(),
+            ),
+            GoRoute(
+              path: RoutesConstants.history,
+              builder: (context, state) => const HistoryPage(),
             ),
             GoRoute(
               path: RoutesConstants.showproduct,
