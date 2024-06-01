@@ -1,5 +1,8 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:excel/excel.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -161,8 +164,84 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:958646065.
   readCSVAndConvertToJson() async {
+    
+    FilePickerResult? pickedFile = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['xlsx', 'csv'],
+      allowMultiple: false,
+    );
+
+    if (pickedFile != null) {
+      List<int> bytes = pickedFile.files.single.bytes as List<int>;
+      var excel = Excel.decodeBytes(bytes);
+      for (var table in excel.tables.keys) {
+
+        for (var row in excel.tables[table]!.rows) {
+
+          String key = '', description = '';
+
+          try{
+            key = row.elementAt(0)!.value!;
+          }catch(onerr){
+            print('ERROR ON key: ${onerr.toString()}');
+          }
+
+          try{
+            description = row.elementAt(1)!.value!;
+          } catch(onerr){
+            print('ERROR ON description: ${onerr.toString()}');
+          }
+          
+          String price = '', exist = '', total = '';
+
+          try{
+            price = row.elementAt(2)!.value!;
+          } catch(onerr){
+            print('ERROR ON price: ${onerr.toString()}');
+          }
+
+          try{
+            exist = row.elementAt(3)!.value!;
+          } catch(onerr){
+            print('ERROR ON exist: ${onerr.toString()}');
+          }
+
+          try{
+            total = row.elementAt(4)!.value!;
+          } catch(onerr){
+            print('ERROR ON total: ${onerr.toString()}');
+          }
+
+          try {
+            await FirebaseFirestore.instance.collection('/app/conf/prod').add({
+              'author': {
+                'dateCreated': DateTime.now(),
+                'name': 'Marco Monsivais',
+                'id': FirebaseAuth.instance.currentUser!.uid,
+              },
+              'description': description,
+              'key': key,
+              'image': '',
+              'lastEdit': DateTime.now(),
+              'price': int.parse(price.replaceAll(RegExp(r'\$'), '')),
+              'qnty': int.parse(exist.replaceAll(RegExp(r'\$'), '')),
+              'total': int.parse(total.replaceAll(RegExp(r'\$'), '')),
+            });
+          } catch(onerr){
+            print('ERROR ON INSERT');
+          }
+
+        }
+
+      }
+
+      print('CATALOGO TERMINADO');
+
+    }
+  }
+
+  readCSVAndConvertToJson2() async {
 
     int progress = 0;
 
